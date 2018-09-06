@@ -1,0 +1,11 @@
+{
+    "name": "crypto-chatbot",
+    "description": "A very simple webhook that gets you the details of a cryptocurrency.",
+    "repository": "https://github.com/vaisakh4de/crypto-chatbot.git",
+    "keywords": [
+        "crypto",
+        "dialogflow",
+        "chatbot",
+        "webhook"
+    ]
+}
