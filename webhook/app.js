@@ -21,9 +21,10 @@ app.use((req, res, next) => {
 app.post('/webhook', (req, res) => {
 
     const actionNeeded = req.body.queryResult.action;
-    const symbol =  req.body.queryResult.parameters.fsym;
-    const country = req.body.queryResult.parameters.tsyms ? req.body.queryResult.parameters.tsyms : 'USD';
-    
+    var symbol =  req.body.queryResult.parameters.fsym;
+    var country = req.body.queryResult.parameters.tsyms ? req.body.queryResult.parameters.tsyms : 'USD';
+    symbol = symbol.toUpperCase();
+    country = country.toUpperCase();
     if (actionNeeded === 'price')
     {
         const reqUrl = encodeURI(`https://min-api.cryptocompare.com/data/price?fsym=${symbol}&tsyms=${country}`);
@@ -34,8 +35,15 @@ app.post('/webhook', (req, res) => {
             });
             responseFromAPI.on('end', () => {
                 const movie = JSON.parse(completeResponse);
+                console.log(movie);
                 
-                let dataToSend = `value of ${symbol} in ${country} is ${movie.USD} `;
+                let dataToSend
+                for (var key in movie)
+                {
+                    console.log(key);
+                    dataToSend = `value of ${symbol} in ${country} is  ${movie[key]}`;
+                }
+                
                 console.log(dataToSend);
                 return res.json({
                     fulfillmentText: dataToSend,
